@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Placeholder from './pages/Placeholder';
 import Tools from './pages/Tools';
 import ToolDetail from './pages/ToolDetail';
+import Users from './pages/Users';
 
 export default function App() {
     return (
@@ -24,10 +25,7 @@ export default function App() {
                             />
                             <Route path="/tools" element={<Tools />} />
                             <Route path="/tools/:id" element={<ToolDetail />} />
-                            <Route
-                                path="/users"
-                                element={<Placeholder title="Users" description="Manage customers and their roles." />}
-                            />
+                            <Route path="/users" element={<Users />} />
                             <Route
                                 path="/revenue"
                                 element={<Placeholder title="Revenue" description="Track subscriptions and earnings." />}
