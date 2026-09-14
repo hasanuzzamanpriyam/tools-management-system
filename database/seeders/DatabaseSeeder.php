@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'super_admin',
             'email_verified_at' => now(),
         ]);
+
+        $this->call(ToolSeeder::class);
     }
 }
