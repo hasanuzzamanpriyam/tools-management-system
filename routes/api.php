@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\ToolController;
 use App\Http\Controllers\Api\Admin\ToolFileController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\LicenseController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\StripeWebhookController;
 use Illuminate\Http\Request;
@@ -14,6 +15,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/stripe/webhook', StripeWebhookController::class);
+
+Route::post('/license/validate', [LicenseController::class, 'validateRequest']);
+Route::post('/license/activate', [LicenseController::class, 'activate']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

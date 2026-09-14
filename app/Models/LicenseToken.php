@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['purchase_id', 'token_hash', 'device_limit', 'is_active', 'expires_at'])]
 class LicenseToken extends Model
@@ -17,6 +18,11 @@ class LicenseToken extends Model
     public function purchase(): BelongsTo
     {
         return $this->belongsTo(Purchase::class);
+    }
+
+    public function activations(): HasMany
+    {
+        return $this->hasMany(DeviceActivation::class);
     }
 
     /**
