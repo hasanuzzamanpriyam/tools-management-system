@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['user_id', 'tool_id', 'stripe_payment_id', 'stripe_subscription_id', 'amount', 'status', 'expires_at'])]
 class Purchase extends Model
@@ -39,6 +40,11 @@ class Purchase extends Model
     public function tool(): BelongsTo
     {
         return $this->belongsTo(Tool::class);
+    }
+
+    public function licenseToken(): HasOne
+    {
+        return $this->hasOne(LicenseToken::class);
     }
 
     /**
