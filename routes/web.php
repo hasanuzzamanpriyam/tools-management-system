@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('app');
-});
+Route::get('/', fn () => view('app'));
 
-Route::get('/login', function () {
-    return response()->json(['message' => 'Unauthenticated.'], 401);
-})->name('login');
+Route::get('/login', fn () => view('app'))->name('login');
+
+Route::get('/{any}', fn () => view('app'))->where('any', '.*');
