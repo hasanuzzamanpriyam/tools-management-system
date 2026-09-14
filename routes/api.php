@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ToolController;
 use App\Http\Controllers\Api\Admin\ToolFileController;
 use App\Http\Controllers\Api\Admin\UserController;
@@ -28,4 +29,6 @@ Route::middleware(['auth:sanctum', 'role:super_admin,admin'])
 
         Route::get('/users', [UserController::class, 'index']);
         Route::patch('/users/{user}', [UserController::class, 'update']);
+
+        Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     });

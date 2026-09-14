@@ -12,9 +12,8 @@ class ToolSeeder extends Seeder
      */
     public function run(): void
     {
-        Tool::factory()->create([
+        Tool::firstOrCreate(['slug' => 'timesync'], [
             'name' => 'TimeSync',
-            'slug' => 'timesync',
             'description' => 'Browser extension that syncs your watch, clock and calendar straight from your wrist.',
             'type' => Tool::TYPE_EXTENSION,
             'pricing_model' => Tool::PRICING_ONE_TIME,
