@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 /plan.md
+/.superpowers/
 .env
 .env.backup
 .env.production
