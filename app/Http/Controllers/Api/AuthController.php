@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -18,13 +19,28 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
+            'referral_code' => ['nullable', 'string', 'max:64'],
         ]);
+
+        $referrer = null;
+
+        if ($data['referral_code'] ?? null) {
+            $referrer = User::where('referral_code', $data['referral_code'])->first();
+
+            if (! $referrer) {
+                throw ValidationException::withMessages([
+                    'referral_code' => ['The referral code is invalid.'],
+                ]);
+            }
+        }
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => User::ROLE_USER,
+            'referral_code' => $this->uniqueReferralCode(),
+            'referred_by' => $referrer?->id,
         ]);
 
         $token = $user->createToken('auth-token')->plainTextToken;
@@ -74,5 +90,14 @@ class AuthController extends Controller
     public function me(Request $request): JsonResponse
     {
         return response()->json($request->user());
+    }
+
+    private function uniqueReferralCode(): string
+    {
+        do {
+            $code = Str::upper(Str::random(8));
+        } while (User::where('referral_code', $code)->exists());
+
+        return $code;
     }
 }

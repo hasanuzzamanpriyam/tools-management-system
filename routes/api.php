@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\LicenseController;
+use App\Http\Controllers\Api\ReferralController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\StripeWebhookController;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ Route::post('/license/activate', [LicenseController::class, 'activate']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::get('/me/credits', [ReferralController::class, 'credits']);
 
     Route::post('/tools/{tool}/checkout', [StripeController::class, 'checkout']);
     Route::get('/tools/{tool}/download', [DownloadController::class, 'download']);

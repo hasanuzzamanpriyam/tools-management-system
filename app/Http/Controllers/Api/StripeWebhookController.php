@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use App\Models\Tool;
 use App\Models\User;
+use App\Services\CreditsService;
 use App\Services\TokenService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class StripeWebhookController extends Controller
         ]);
 
         (new TokenService)->generate($purchase);
+        (new CreditsService)->creditFirstPurchase($purchase);
     }
 
     private function handleInvoicePaymentSucceeded(object $invoice): void

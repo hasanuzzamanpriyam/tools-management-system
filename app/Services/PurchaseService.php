@@ -9,18 +9,21 @@ use Stripe\StripeClient;
 
 class PurchaseService
 {
-    public function __construct(private readonly ?StripeClient $stripe) {}
+    public function __construct(
+        private readonly ?StripeClient $stripe,
+        private readonly ?CreditsService $credits = null,
+    ) {}
 
     /**
      * Build the Stripe Checkout Session payload for the given tool.
      *
      * @return array<string, mixed>
      */
-    public function buildCheckoutPayload(Tool $tool, User $user): array
+    public function buildCheckoutPayload(Tool $tool, User $user, float $discount = 0.0): array
     {
         $priceData = [
             'currency' => 'usd',
-            'unit_amount' => (int) round($tool->price * 100),
+            'unit_amount' => max((int) round($tool->price * 100) - (int) round($discount * 100), 0),
             'product_data' => ['name' => $tool->name],
         ];
 
@@ -60,8 +63,17 @@ class PurchaseService
             throw new \RuntimeException('Stripe is not configured.');
         }
 
+        $discount = $this->credits ? $this->credits->balance($user) : 0.0;
+        $discount = min($discount, (float) $tool->price);
+
         /** @var Session $session */
-        $session = $this->stripe->checkout->sessions->create($this->buildCheckoutPayload($tool, $user));
+        $session = $this->stripe->checkout->sessions->create(
+            $this->buildCheckoutPayload($tool, $user, $discount),
+        );
+
+        if ($discount > 0) {
+            $this->credits?->redeem($user, $discount);
+        }
 
         return [
             'id' => $session->id,
