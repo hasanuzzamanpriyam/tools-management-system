@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['purchase_id', 'token_hash', 'device_limit', 'is_active', 'expires_at'])]
+#[Fillable(['purchase_id', 'token_hash', 'token_value', 'device_limit', 'is_active', 'expires_at'])]
 class LicenseToken extends Model
 {
     /** @use HasFactory<LicenseTokenFactory> */

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\LicenseToken;
 use App\Models\Purchase;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class TokenService
@@ -12,7 +13,8 @@ class TokenService
      * Generate a license token for a purchase and store its hash.
      *
      * The plaintext token is returned exactly once so it can be handed to the
-     * customer; only the SHA-256 hash is persisted.
+     * customer; only the SHA-256 hash is persisted for lookup, while the
+     * plaintext is kept encrypted for later configuration injection.
      */
     public function generate(Purchase $purchase): string
     {
@@ -21,6 +23,7 @@ class TokenService
         LicenseToken::create([
             'purchase_id' => $purchase->id,
             'token_hash' => $this->hash($token),
+            'token_value' => Crypt::encryptString($token),
             'device_limit' => $purchase->tool->device_limit,
             'is_active' => true,
             'expires_at' => $purchase->expires_at,

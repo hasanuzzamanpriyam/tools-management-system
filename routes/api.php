@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\ToolController;
 use App\Http\Controllers\Api\Admin\ToolFileController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\LicenseController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\StripeWebhookController;
@@ -24,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::post('/tools/{tool}/checkout', [StripeController::class, 'checkout']);
+    Route::get('/tools/{tool}/download', [DownloadController::class, 'download']);
+    Route::get('/tools/{tool}/download/config', [DownloadController::class, 'config']);
 
     Route::get('/user', function (Request $request) {
         return $request->user();
