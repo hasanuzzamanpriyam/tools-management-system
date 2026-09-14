@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\ToolController;
+use App\Http\Controllers\Api\Admin\ToolFileController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,6 @@ Route::middleware(['auth:sanctum', 'role:super_admin,admin'])
     ->prefix('admin')
     ->group(function () {
         Route::apiResource('tools', ToolController::class);
+        Route::post('/tools/{tool}/files', [ToolFileController::class, 'store']);
+        Route::delete('/tools/{tool}/files/{file}', [ToolFileController::class, 'destroy'])->scopeBindings();
     });
