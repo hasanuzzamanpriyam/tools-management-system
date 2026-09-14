@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 /plan.md
+/SESSION_NOTES.md
 /.superpowers/
 .env
 .env.backup
