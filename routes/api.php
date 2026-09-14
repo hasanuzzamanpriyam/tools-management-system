@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\ToolController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,3 +16,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 });
+
+Route::middleware(['auth:sanctum', 'role:super_admin,admin'])
+    ->prefix('admin')
+    ->group(function () {
+        Route::apiResource('tools', ToolController::class);
+    });

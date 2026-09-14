@@ -22,6 +22,15 @@ class Tool extends Model
 
     public const PRICING_SUBSCRIPTION = 'subscription';
 
+    /**
+     * The model's default attribute values.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
     public function files(): HasMany
     {
         return $this->hasMany(ToolFile::class);
