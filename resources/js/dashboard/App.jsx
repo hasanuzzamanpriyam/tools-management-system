@@ -5,6 +5,8 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Placeholder from './pages/Placeholder';
+import Tools from './pages/Tools';
+import ToolDetail from './pages/ToolDetail';
 
 export default function App() {
     return (
@@ -20,10 +22,8 @@ export default function App() {
                                 path="/dashboard"
                                 element={<Placeholder title="Dashboard" description="Revenue overview and key metrics." />}
                             />
-                            <Route
-                                path="/tools"
-                                element={<Placeholder title="Tools" description="Create and manage your digital tools." />}
-                            />
+                            <Route path="/tools" element={<Tools />} />
+                            <Route path="/tools/:id" element={<ToolDetail />} />
                             <Route
                                 path="/users"
                                 element={<Placeholder title="Users" description="Manage customers and their roles." />}
