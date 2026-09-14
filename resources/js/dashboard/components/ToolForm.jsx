@@ -27,6 +27,8 @@ export default function ToolForm({ initialData = {}, onSubmit, onCancel, isSubmi
         price: initialData.price ?? '',
         device_limit: initialData.device_limit ?? 1,
         referral_credits: initialData.referral_credits ?? '0',
+        has_demo: initialData.has_demo ?? false,
+        demo_url: initialData.demo_url ?? '',
         is_active: initialData.is_active ?? true,
     });
     const [errors, setErrors] = useState({});
@@ -167,6 +169,32 @@ export default function ToolForm({ initialData = {}, onSubmit, onCancel, isSubmi
                     />
                 </Field>
             </div>
+
+            <label className="flex items-center gap-3">
+                <input
+                    id="has_demo"
+                    name="has_demo"
+                    type="checkbox"
+                    checked={form.has_demo}
+                    onChange={handleChange}
+                    className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                />
+                <span className="text-sm font-medium text-slate-700">Enable a live demo preview</span>
+            </label>
+
+            {form.has_demo && (
+                <Field label="Demo URL" name="demo_url" error={errors.demo_url?.[0]}>
+                    <input
+                        id="demo_url"
+                        name="demo_url"
+                        type="url"
+                        value={form.demo_url}
+                        onChange={handleChange}
+                        className={inputClasses}
+                        placeholder="https://demo.example.com"
+                    />
+                </Field>
+            )}
 
             <label className="flex items-center gap-3">
                 <input

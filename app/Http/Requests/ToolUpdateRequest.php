@@ -33,6 +33,8 @@ class ToolUpdateRequest extends FormRequest
             'device_limit' => ['required', 'integer', 'min:1'],
             'referral_credits' => ['nullable', 'numeric', 'min:0'],
             'icon' => ['nullable', 'string', 'max:255'],
+            'has_demo' => ['nullable', 'boolean'],
+            'demo_url' => ['nullable', 'url', 'max:2048'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }

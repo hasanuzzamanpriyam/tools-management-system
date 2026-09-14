@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'slug', 'description', 'type', 'pricing_model', 'price', 'device_limit', 'referral_credits', 'icon', 'is_active', 'stripe_price_id'])]
+#[Fillable(['name', 'slug', 'description', 'type', 'pricing_model', 'price', 'device_limit', 'referral_credits', 'icon', 'has_demo', 'demo_url', 'is_active', 'stripe_price_id'])]
 class Tool extends Model
 {
     /** @use HasFactory<ToolFactory> */
@@ -48,6 +48,7 @@ class Tool extends Model
             'device_limit' => 'integer',
             'referral_credits' => 'decimal:2',
             'is_active' => 'boolean',
+            'has_demo' => 'boolean',
         ];
     }
 }

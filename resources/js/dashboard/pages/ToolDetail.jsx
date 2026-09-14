@@ -117,6 +117,26 @@ export default function ToolDetail() {
                 </div>
             </div>
 
+            {tool.has_demo && tool.demo_url && (
+                <div className="flex items-center justify-between rounded-xl border border-indigo-200 bg-indigo-50 px-5 py-4">
+                    <div>
+                        <p className="text-sm font-semibold text-indigo-900">Live demo available</p>
+                        <p className="mt-0.5 text-xs text-indigo-700">Preview this tool before your customers buy.</p>
+                    </div>
+                    <a
+                        href={tool.demo_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                    >
+                        Preview Demo
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+            )}
+
             <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h2 className="text-sm font-semibold text-slate-900">Details</h2>
                 <dl className="mt-4 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">

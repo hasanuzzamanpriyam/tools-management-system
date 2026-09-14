@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\ToolController;
 use App\Http\Controllers\Api\Admin\ToolFileController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DemoController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\LicenseController;
 use App\Http\Controllers\Api\ReferralController;
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me/credits', [ReferralController::class, 'credits']);
 
     Route::post('/tools/{tool}/checkout', [StripeController::class, 'checkout']);
+    Route::get('/tools/{tool}/demo', [DemoController::class, 'show']);
     Route::get('/tools/{tool}/download', [DownloadController::class, 'download']);
     Route::get('/tools/{tool}/download/config', [DownloadController::class, 'config']);
 

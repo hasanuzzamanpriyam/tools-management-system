@@ -28,6 +28,8 @@ class ToolResource extends JsonResource
             'device_limit' => $this->device_limit,
             'referral_credits' => $this->referral_credits,
             'icon' => $this->icon,
+            'has_demo' => $this->has_demo,
+            'demo_url' => $this->demo_url,
             'is_active' => $this->is_active,
             'files' => $this->whenLoaded('files', fn ($files) => $files->map(
                 fn (ToolFile $file) => [
