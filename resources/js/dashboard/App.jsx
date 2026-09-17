@@ -4,13 +4,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Placeholder from './pages/Placeholder';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import Tools from './pages/Tools';
 import ToolDetail from './pages/ToolDetail';
 import Users from './pages/Users';
 import Analytics from './pages/Analytics';
 import Store from './pages/Store';
+import Settings from './pages/Settings';
 
 export default function App() {
     return (
@@ -19,6 +21,8 @@ export default function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/store" element={<Store />} />
 
                     <Route element={<ProtectedRoute />}>
@@ -28,10 +32,7 @@ export default function App() {
                             <Route path="/tools/:id" element={<ToolDetail />} />
                             <Route path="/users" element={<Users />} />
                             <Route path="/revenue" element={<Analytics />} />
-                            <Route
-                                path="/settings"
-                                element={<Placeholder title="Settings" description="Configure your store." />}
-                            />
+                            <Route path="/settings" element={<Settings />} />
 
                             <Route path="/" element={<Navigate to="/dashboard" replace />} />
                         </Route>

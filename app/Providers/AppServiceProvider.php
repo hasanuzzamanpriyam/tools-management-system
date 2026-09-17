@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 use Stripe\StripeClient;
 
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        ResetPassword::createUrlUsing(
+            fn ($notifiable, string $token) => url("/reset-password?token={$token}&email={$notifiable->getEmailForPasswordReset()}")
+        );
     }
 }

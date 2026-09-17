@@ -45,6 +45,11 @@ export function AuthProvider({ children }) {
         persist(data.token, data.user);
     };
 
+    const updateUser = (user) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        setUser(user);
+    };
+
     const logout = async () => {
         try {
             await api.post('/logout');
@@ -59,7 +64,18 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, isAuthenticated: Boolean(token), login, register, logout }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                token,
+                isAuthenticated: Boolean(token),
+                login,
+                register,
+                logout,
+                updateUser,
+                setSession: persist,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useAvatarUrl } from '../hooks/useAvatarUrl';
 
 const navigation = [
     {
@@ -89,6 +90,7 @@ export default function Layout() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const avatarUrl = useAvatarUrl(user);
     const title = titles[location.pathname] ?? 'Dashboard';
 
     const handleLogout = async () => {
@@ -148,9 +150,17 @@ export default function Layout() {
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
-                                {initials}
-                            </div>
+                            {avatarUrl ? (
+                                <img
+                                    src={avatarUrl}
+                                    alt="Profile picture"
+                                    className="h-9 w-9 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-semibold text-indigo-700">
+                                    {initials}
+                                </div>
+                            )}
                             <div className="leading-tight">
                                 <p className="text-sm font-medium text-slate-900">{user?.name}</p>
                                 <p className="text-xs text-slate-500">{user?.email}</p>

@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DemoController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\LicenseController;
+use App\Http\Controllers\Api\PasswordResetController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReferralController;
 use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\StripeController;
@@ -18,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/forgot-password', [PasswordResetController::class, 'forgot'])->middleware('throttle:5,1');
+Route::post('/reset-password', [PasswordResetController::class, 'reset']);
 
 Route::post('/stripe/webhook', StripeWebhookController::class);
 
@@ -29,6 +34,11 @@ Route::post('/license/activate', [LicenseController::class, 'activate'])->middle
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::patch('/me', [ProfileController::class, 'update']);
+    Route::post('/me/avatar', [ProfileController::class, 'uploadAvatar']);
+    Route::get('/me/avatar', [ProfileController::class, 'avatar']);
+    Route::delete('/me/avatar', [ProfileController::class, 'deleteAvatar']);
+    Route::put('/me/password', [ProfileController::class, 'changePassword']);
     Route::get('/me/credits', [ReferralController::class, 'credits']);
 
     Route::post('/tools/{tool}/checkout', [StripeController::class, 'checkout']);
