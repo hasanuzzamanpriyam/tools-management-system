@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DemoController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\LicenseController;
 use App\Http\Controllers\Api\ReferralController;
+use App\Http\Controllers\Api\StoreController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\StripeWebhookController;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/stripe/webhook', StripeWebhookController::class);
+
+Route::get('/tools', [StoreController::class, 'index']);
 
 Route::post('/license/validate', [LicenseController::class, 'validateRequest']);
 Route::post('/license/activate', [LicenseController::class, 'activate']);
