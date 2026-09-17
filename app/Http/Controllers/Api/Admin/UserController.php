@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuditLogger;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -44,6 +45,11 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        (new AuditLogger)->record($request, 'user.updated', $user, [
+            'role' => $user->role,
+            'is_active' => (bool) $user->is_active,
+        ]);
 
         return new UserResource($user);
     }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\TokenService;
+use App\Support\LicenseCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class LicenseController extends Controller
 {
@@ -18,7 +20,15 @@ class LicenseController extends Controller
             'device_fingerprint' => ['required', 'string'],
         ]);
 
-        return response()->json($this->tokens->validate($data['token'], $data['device_fingerprint']));
+        $cache = new LicenseCache;
+
+        $result = Cache::remember(
+            $cache->key($data['token'], $data['device_fingerprint']),
+            now()->addSeconds((int) config('services.license_cache_ttl', 60)),
+            fn () => $this->tokens->validate($data['token'], $data['device_fingerprint']),
+        );
+
+        return response()->json($result);
     }
 
     public function activate(Request $request): JsonResponse
@@ -28,6 +38,10 @@ class LicenseController extends Controller
             'device_fingerprint' => ['required', 'string'],
         ]);
 
-        return response()->json($this->tokens->activate($data['token'], $data['device_fingerprint']));
+        $result = $this->tokens->activate($data['token'], $data['device_fingerprint']);
+
+        (new LicenseCache)->bustToken($data['token']);
+
+        return response()->json($result);
     }
 }

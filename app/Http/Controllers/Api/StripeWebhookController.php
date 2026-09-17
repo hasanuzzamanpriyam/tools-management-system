@@ -8,6 +8,7 @@ use App\Models\Tool;
 use App\Models\User;
 use App\Services\CreditsService;
 use App\Services\TokenService;
+use App\Support\LicenseCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Stripe\Event;
@@ -86,6 +87,7 @@ class StripeWebhookController extends Controller
         ]);
 
         $purchase->licenseToken?->update(['is_active' => true]);
+        $this->bustLicenseCache($purchase);
     }
 
     private function handleInvoicePaymentFailed(object $invoice): void
@@ -96,6 +98,7 @@ class StripeWebhookController extends Controller
 
         if ($purchase) {
             $purchase->update(['status' => Purchase::STATUS_PAYMENT_FAILED]);
+            $this->bustLicenseCache($purchase);
         }
     }
 
@@ -108,6 +111,14 @@ class StripeWebhookController extends Controller
         if ($purchase) {
             $purchase->update(['status' => Purchase::STATUS_EXPIRED]);
             $purchase->licenseToken?->update(['is_active' => false]);
+            $this->bustLicenseCache($purchase);
+        }
+    }
+
+    private function bustLicenseCache(Purchase $purchase): void
+    {
+        if ($purchase->licenseToken) {
+            (new LicenseCache)->bustTokenHash($purchase->licenseToken->token_hash);
         }
     }
 }

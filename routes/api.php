@@ -23,8 +23,8 @@ Route::post('/stripe/webhook', StripeWebhookController::class);
 
 Route::get('/tools', [StoreController::class, 'index']);
 
-Route::post('/license/validate', [LicenseController::class, 'validateRequest']);
-Route::post('/license/activate', [LicenseController::class, 'activate']);
+Route::post('/license/validate', [LicenseController::class, 'validateRequest'])->middleware('throttle:60,1');
+Route::post('/license/activate', [LicenseController::class, 'activate'])->middleware('throttle:20,1');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/tools/{tool}/checkout', [StripeController::class, 'checkout']);
     Route::get('/tools/{tool}/demo', [DemoController::class, 'show']);
-    Route::get('/tools/{tool}/download', [DownloadController::class, 'download']);
+    Route::get('/tools/{tool}/download', [DownloadController::class, 'download'])->middleware('throttle:10,10');
     Route::get('/tools/{tool}/download/config', [DownloadController::class, 'config']);
 
     Route::get('/user', function (Request $request) {

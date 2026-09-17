@@ -41,4 +41,6 @@ return [
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 
+    'license_cache_ttl' => env('LICENSE_CACHE_TTL', 60),
+
 ];
