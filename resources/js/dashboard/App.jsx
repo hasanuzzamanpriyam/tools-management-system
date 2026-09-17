@@ -13,6 +13,7 @@ import Users from './pages/Users';
 import Analytics from './pages/Analytics';
 import Store from './pages/Store';
 import Settings from './pages/Settings';
+import OAuthCallback from './pages/OAuthCallback';
 
 export default function App() {
     return (
@@ -26,16 +27,19 @@ export default function App() {
                     <Route path="/store" element={<Store />} />
 
                     <Route element={<ProtectedRoute />}>
-                        <Route element={<Layout />}>
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/tools" element={<Tools />} />
-                            <Route path="/tools/:id" element={<ToolDetail />} />
-                            <Route path="/users" element={<Users />} />
-                            <Route path="/revenue" element={<Analytics />} />
-                            <Route path="/settings" element={<Settings />} />
+                    <Route element={<Layout />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/tools" element={<Tools />} />
+                        <Route path="/tools/:id" element={<ToolDetail />} />
+                        <Route path="/users" element={<Users />} />
+                        <Route path="/revenue" element={<Analytics />} />
+                        <Route path="/settings" element={<Settings />} />
 
-                            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                        </Route>
+                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    </Route>
+
+                    <Route path="/auth/google/callback" element={<OAuthCallback />} />
+                    <Route path="/auth/github/callback" element={<OAuthCallback />} />
                     </Route>
 
                     <Route path="*" element={<Navigate to="/" replace />} />

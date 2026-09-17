@@ -5,8 +5,16 @@ export function useAvatarUrl(user) {
     const [url, setUrl] = useState(null);
 
     useEffect(() => {
-        if (!user?.avatar_url) {
+        const remote = user?.avatar_url;
+
+        if (!remote) {
             setUrl(null);
+
+            return;
+        }
+
+        if (/^https?:\/\//i.test(remote)) {
+            setUrl(remote);
 
             return;
         }

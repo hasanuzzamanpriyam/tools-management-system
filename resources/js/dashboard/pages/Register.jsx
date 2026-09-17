@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import SocialButtons from '../components/SocialButtons';
 
 export default function Register() {
     const { register, isAuthenticated } = useAuth();
@@ -145,6 +146,8 @@ export default function Register() {
                         {loading ? 'Creating account…' : 'Create account'}
                     </button>
                 </form>
+
+                <SocialButtons />
 
                 <p className="mt-8 text-center text-sm text-slate-500">
                     Already have an account?{' '}
