@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Tools from './pages/Tools';
 import ToolDetail from './pages/ToolDetail';
 import Users from './pages/Users';
+import Analytics from './pages/Analytics';
 import Store from './pages/Store';
 
 export default function App() {
@@ -26,10 +27,7 @@ export default function App() {
                             <Route path="/tools" element={<Tools />} />
                             <Route path="/tools/:id" element={<ToolDetail />} />
                             <Route path="/users" element={<Users />} />
-                            <Route
-                                path="/revenue"
-                                element={<Placeholder title="Revenue" description="Track subscriptions and earnings." />}
-                            />
+                            <Route path="/revenue" element={<Analytics />} />
                             <Route
                                 path="/settings"
                                 element={<Placeholder title="Settings" description="Configure your store." />}
