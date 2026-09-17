@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Purchase;
+use App\Models\Tool;
 use App\Models\ToolFile;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -42,9 +43,10 @@ class DownloadService
     }
 
     /**
-     * Produce a copy of the zip with config.json injected at its root.
+     * Produce a copy of the zip with config.json injected at its root. For
+     * browser extensions the manifest and metadata are also injected.
      */
-    public function bundleZip(ToolFile $file, array $config): string
+    public function bundleZip(ToolFile $file, array $config, ?string $browser = null): string
     {
         $tmp = tempnam(sys_get_temp_dir(), 'bundle');
 
@@ -53,6 +55,18 @@ class DownloadService
         $zip = new ZipArchive;
         $zip->open($tmp);
         $zip->addFromString('config.json', $this->encodeConfig($config));
+
+        $tool = $file->tool;
+        if ($tool && $tool->type === Tool::TYPE_EXTENSION) {
+            $meta = $tool->extension_meta ?? [];
+            $browser = $browser ?: ($meta['browsers'][0] ?? 'chrome');
+
+            $zip->addFromString('manifest.json', $this->encodeConfig(
+                (new ExtensionService)->manifest($tool, $browser),
+            ));
+            $zip->addFromString('extension.json', $this->encodeConfig($meta));
+        }
+
         $zip->close();
 
         return $tmp;

@@ -30,6 +30,7 @@ class ToolResource extends JsonResource
             'icon' => $this->icon,
             'has_demo' => $this->has_demo,
             'demo_url' => $this->demo_url,
+            'extension_meta' => $this->extension_meta,
             'is_active' => $this->is_active,
             'files' => $this->whenLoaded('files', fn ($files) => $files->map(
                 fn (ToolFile $file) => [

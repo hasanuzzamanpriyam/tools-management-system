@@ -35,6 +35,12 @@ class ToolStoreRequest extends FormRequest
             'icon' => ['nullable', 'string', 'max:255'],
             'has_demo' => ['nullable', 'boolean'],
             'demo_url' => ['nullable', 'url', 'max:2048'],
+            'extension_meta' => ['nullable', 'array'],
+            'extension_meta.browsers' => ['nullable', 'array'],
+            'extension_meta.browsers.*' => ['required', Rule::in(['chrome', 'firefox', 'edge'])],
+            'extension_meta.manifest_version' => ['nullable', 'integer', 'in:2,3'],
+            'extension_meta.permissions' => ['nullable', 'array'],
+            'extension_meta.permissions.*' => ['required', 'string'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }

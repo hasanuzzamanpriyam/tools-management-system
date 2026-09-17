@@ -26,7 +26,11 @@ class DownloadController extends Controller
         $result = $this->downloads->download($request->user(), $file);
 
         if ($file->file_type === 'zip') {
-            $bundle = $this->downloads->bundleZip($file, $result['config']);
+            $bundle = $this->downloads->bundleZip(
+                $file,
+                $result['config'],
+                $request->query('browser'),
+            );
 
             return response()->download($bundle, basename($file->file_path))
                 ->deleteFileAfterSend(true);
